@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+</head>
+<body>
+
+    <div th:if="${msgSuccess != null}">
+        [[${msgSuccess}]]
+    </div>
+
+      <h1>Contact List!</h1>
+      <a href="/new">Añadir Contacto</a>
+
+      <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Cellphone</th>
+                <th>Email</th>
+                <th>Brithdate</th>
+                <th>Register Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="contact : ${contacts}">
+                <td th:text="${contacto.id}"></td>
+                <td th:text="${contacto.name}"></td>
+                <td th:text="${contacto.cellPhone}"></td>
+                <td th:text="${contacto.email}"></td>
+                <td th:text="${contacto.birthDate}"></td>
+                <td th:text="${contacto.createDate}"></td>
+            </tr>
+        </tbody>
+      </table>
+
+</body>
+</html>
