@@ -1,9 +1,11 @@
 package com.contact.list.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Contact {
@@ -12,26 +14,38 @@ public class Contact {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "the name is required")
     private String name;
 
+    @NotEmpty(message = "the email is required")
+    @Email
     private String email;
 
+    @NotBlank(message = "the phone is required")
     private String cellPhone;
 
-    private String birthDate;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Past // permite solo fechas del pasada no futuras
+    @NotNull(message = "the date is required")
+    private LocalDate birthDate;
 
-    private String createDate;
+    private LocalDateTime createDate;
 
     public Contact() {
     }
 
-    public Contact(Long id, String name, String email, String cellPhone, String birthDate, String createDate) {
+    public Contact(Long id, String name, String email, String cellPhone, LocalDate birthDate, LocalDateTime createDate) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.cellPhone = cellPhone;
         this.birthDate = birthDate;
         this.createDate = createDate;
+    }
+
+    @PrePersist
+    public void setCreatedDate() {
+        createDate = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -66,19 +80,19 @@ public class Contact {
         this.cellPhone = cellPhone;
     }
 
-    public String getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
-    public String getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(String createDate) {
+    public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
 }
